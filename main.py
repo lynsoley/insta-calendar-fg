@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 import re
+import os
 from datetime import datetime, timedelta
 
 URL = "https://www.instagram.com/fg_genderstudies/"
@@ -94,7 +95,7 @@ with sync_playwright() as p:
 
             seen.add(key)
 
-            print("✅ Event:", e["title"], "|", e["start"])
+            print("Event:", e["title"], "|", e["start"])
 
             events.append(e)
 
@@ -124,4 +125,8 @@ END:VEVENT
 
 create_ics(events)
 
-print("\nICS erstellt ✅")
+os.system("git add events.ics")
+os.system("git commit -m 'update events' || true")
+os.system("git push")
+
+print("\nICS erstellt")
