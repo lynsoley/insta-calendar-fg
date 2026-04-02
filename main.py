@@ -67,6 +67,22 @@ def extract_events(text):
         if len(title) < 5:
             title = "FG Gender Studies Event"
 
+        start_idx = match.end()
+        next_match = re.search(r"\d{1,2}\.\s*[A-Za-zäöüÄÖÜ]+", text[start_idx:])
+
+        if next_match:
+            title = text[start_idx:start_idx + next_match.start()]
+        else:
+            title = text[start_idx:]
+
+        title = title.strip()
+        title = re.split(r"(ERREICHE|UNTER|@)", title)[0]
+        title = re.sub(r"^Uhr\s+", " ", title)
+        title = title[:80]
+
+        if len(title) < 5:
+            title = "Event"
+
         results.append({
             "title": title,
             "start": start,
