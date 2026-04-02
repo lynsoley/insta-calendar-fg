@@ -167,16 +167,17 @@ with sync_playwright() as p:
 
         print("Gefundene ALT Texte:", len(alts))
 
-        for alt, link in zip(alts, links):
+        for alt in alts[:3]:
             print("ALT SAMPLE:", alt[:120])
-
+            
+        for alt in alts:
             if "Photo by" not in alt:
                 continue
 
             extracted = extract_events(alt)
 
             for e in extracted:
-                key = (e["start"], e["title"])
+                key = (e["start"].date(), e["start"].hour, e["start"].minute)
 
                 if key in seen:
                     continue
@@ -185,7 +186,6 @@ with sync_playwright() as p:
 
                 print("Event:", e["title"], "|", e["start"])
 
-                e["url"] = link
                 events.append(e)
 
 # =========================
@@ -230,8 +230,7 @@ DTSTAMP:{now}
 SUMMARY:{escape_ics(e['title'])}
 DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
 DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
-DESCRIPTION:{escape_ics(e['description'])}\\n{e.get('url','')}
-URL:{e.get('url','')}
+DESCRIPTION:{escape_ics(e['description'])}
 END:VEVENT
 """
 
