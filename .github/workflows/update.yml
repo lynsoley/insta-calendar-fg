@@ -1,0 +1,41 @@
+name: Update Calendar
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # alle 6 Stunden
+  workflow_dispatch:        # erlaubt manuellen Start
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repo klonen
+        uses: actions/checkout@v3
+
+      - name: Python installieren
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Dependencies installieren
+        run: |
+          pip install playwright
+          playwright install chromium
+
+      - name: state.json laden
+        run: |
+          echo "$STATE_JSON" | base64 --decode > state.json
+        env:
+          STATE_JSON: ${{ secrets.STATE_JSON }}
+
+      - name: Script ausführen
+        run: python main.py
+
+      - name: Änderungen committen
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add events.ics
+          git commit -m "auto update" || echo "no changes"
+          git push
