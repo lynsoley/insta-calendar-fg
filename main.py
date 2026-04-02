@@ -48,7 +48,7 @@ def extract_events(text):
         # Säubern
         title = title.strip()
         title = re.split(r"(ERREICHE|UNTER|@)", title)[0]
-        title = re.sub(r"\s+", " ", title)
+        title = re.sub(r"^Uhr\s+", " ", title)
         title = title[:80]
 
         if len(title) < 5:
@@ -58,7 +58,7 @@ def extract_events(text):
             "title": title,
             "start": start,
             "end": end,
-            "description": text.strip()
+            "description": title
         })
 
     return results
@@ -78,23 +78,24 @@ def escape_ics(text):
 # Browser
 # =========================
 with sync_playwright() as p:
-    browser = p.chromium.launch(
-        headless=True,
-        args=["--disable-blink-features=AutomationControlled"]
-    )
+    browser = p.chromium.launch(headless=True)  # erstmal sichtbar!
 
     context = browser.new_context(
-        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
+        storage_state="state.json",
+        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
+        viewport={"width": 1280, "height": 800}
     )
 
     page = context.new_page()
 
     page.goto(URL, timeout=60000)
 
-    # 🔥 Warten bis Bilder geladen sind
+    # 🔥 WICHTIG: warten bis GRID da ist (nicht nur img!)
     page.wait_for_selector("img", timeout=15000)
+    
+    print("✅ Seite geladen")
 
-    # 🔥 Scrollen (Instagram lazy loading!)
+    # scroll (wichtig für Inhalte)
     for _ in range(3):
         page.mouse.wheel(0, 3000)
         page.wait_for_timeout(2000)
@@ -104,6 +105,28 @@ with sync_playwright() as p:
     alts = re.findall(r'alt="([^"]+)"', html)
 
     print("Gefundene ALT Texte:", len(alts))
+
+    # DEBUG
+    for alt in alts[:3]:
+        print("ALT SAMPLE:", alt[:120])
+        
+    for alt in alts:
+        if "Photo by" not in alt:
+            continue
+
+        extracted = extract_events(alt)
+
+        for e in extracted:
+            key = (e["start"].date(), e["start"].hour, e["start"].minute)
+
+            if key in seen:
+                continue
+
+            seen.add(key)
+
+            print("Event:", e["title"], "|", e["start"])
+
+            events.append(e)
 
 # =========================
 # ICS erstellen (FIXED TIMEZONE)
