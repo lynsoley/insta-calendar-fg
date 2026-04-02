@@ -19,4 +19,44 @@ DTSTART:19701025T030000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
+BEGIN:VEVENT
+UID:15d8b02f34c3a1120eccaf88d8f5bfe7@fg-genderstudies
+DTSTAMP:20260402T131902Z
+SUMMARY:Uhr ZGS Get Together- Bastelabend &amp\; Vorstandswahl
+DTSTART;TZID=Europe/Zurich:20260302T181500
+DTEND;TZID=Europe/Zurich:20260302T201500
+DESCRIPTION:Photo by FG Gender Studies Universität Basel on February 16\, 2026. May be an image of poster and text that says '林日来 T E GESCHILECHTERFORSCHUNG FACHGRUPPE FS26 02.03. um 18:15 Uhr ZGS Get Together- Bastelabend &amp\; Vorstandswahl 27.03. ab 15:00 Uhr Soli- Abend: Kleidertausch im ZGS 13.04. um 18:15 Uhr ZGS Get Together Handarbeitsabend 29.04. um 19：00 Uhr Aktivismus- Talk 04.05. um 18：15 Uhr ZGS Get Together- Spielabend ERREICHE UNS ERREICHEUNSUNTER: UNTER: @FG_Genderstudies FG-genderstudies@unibas.ch Unser UnserSemesterprogramm verändert sich währeno dem Semester immer wieder. Bleib auf dem laufenden in unserem Chat!'.
+END:VEVENT
+BEGIN:VEVENT
+UID:231193610bd89b8c9b252b4f389a201a@fg-genderstudies
+DTSTAMP:20260402T131902Z
+SUMMARY:Uhr Soli- Abend: Kleidertausch im ZGS
+DTSTART;TZID=Europe/Zurich:20260327T150000
+DTEND;TZID=Europe/Zurich:20260327T170000
+DESCRIPTION:Photo by FG Gender Studies Universität Basel on February 16\, 2026. May be an image of poster and text that says '林日来 T E GESCHILECHTERFORSCHUNG FACHGRUPPE FS26 02.03. um 18:15 Uhr ZGS Get Together- Bastelabend &amp\; Vorstandswahl 27.03. ab 15:00 Uhr Soli- Abend: Kleidertausch im ZGS 13.04. um 18:15 Uhr ZGS Get Together Handarbeitsabend 29.04. um 19：00 Uhr Aktivismus- Talk 04.05. um 18：15 Uhr ZGS Get Together- Spielabend ERREICHE UNS ERREICHEUNSUNTER: UNTER: @FG_Genderstudies FG-genderstudies@unibas.ch Unser UnserSemesterprogramm verändert sich währeno dem Semester immer wieder. Bleib auf dem laufenden in unserem Chat!'.
+END:VEVENT
+BEGIN:VEVENT
+UID:67698d55bc0a0e93f8900c163f97fbbf@fg-genderstudies
+DTSTAMP:20260402T131902Z
+SUMMARY:Uhr ZGS Get Together Handarbeitsabend
+DTSTART;TZID=Europe/Zurich:20260413T181500
+DTEND;TZID=Europe/Zurich:20260413T201500
+DESCRIPTION:Photo by FG Gender Studies Universität Basel on February 16\, 2026. May be an image of poster and text that says '林日来 T E GESCHILECHTERFORSCHUNG FACHGRUPPE FS26 02.03. um 18:15 Uhr ZGS Get Together- Bastelabend &amp\; Vorstandswahl 27.03. ab 15:00 Uhr Soli- Abend: Kleidertausch im ZGS 13.04. um 18:15 Uhr ZGS Get Together Handarbeitsabend 29.04. um 19：00 Uhr Aktivismus- Talk 04.05. um 18：15 Uhr ZGS Get Together- Spielabend ERREICHE UNS ERREICHEUNSUNTER: UNTER: @FG_Genderstudies FG-genderstudies@unibas.ch Unser UnserSemesterprogramm verändert sich währeno dem Semester immer wieder. Bleib auf dem laufenden in unserem Chat!'.
+END:VEVENT
+BEGIN:VEVENT
+UID:1d12e049d27e93010145229b73cf8856@fg-genderstudies
+DTSTAMP:20260402T131902Z
+SUMMARY:Uhr Aktivismus- Talk
+DTSTART;TZID=Europe/Zurich:20260429T190000
+DTEND;TZID=Europe/Zurich:20260429T210000
+DESCRIPTION:Photo by FG Gender Studies Universität Basel on February 16\, 2026. May be an image of poster and text that says '林日来 T E GESCHILECHTERFORSCHUNG FACHGRUPPE FS26 02.03. um 18:15 Uhr ZGS Get Together- Bastelabend &amp\; Vorstandswahl 27.03. ab 15:00 Uhr Soli- Abend: Kleidertausch im ZGS 13.04. um 18:15 Uhr ZGS Get Together Handarbeitsabend 29.04. um 19：00 Uhr Aktivismus- Talk 04.05. um 18：15 Uhr ZGS Get Together- Spielabend ERREICHE UNS ERREICHEUNSUNTER: UNTER: @FG_Genderstudies FG-genderstudies@unibas.ch Unser UnserSemesterprogramm verändert sich währeno dem Semester immer wieder. Bleib auf dem laufenden in unserem Chat!'.
+END:VEVENT
+BEGIN:VEVENT
+UID:6ba863cf9d856c225d72c1097b47a6a0@fg-genderstudies
+DTSTAMP:20260402T131902Z
+SUMMARY:Uhr ZGS Get Together- Spielabend 
+DTSTART;TZID=Europe/Zurich:20260504T181500
+DTEND;TZID=Europe/Zurich:20260504T201500
+DESCRIPTION:Photo by FG Gender Studies Universität Basel on February 16\, 2026. May be an image of poster and text that says '林日来 T E GESCHILECHTERFORSCHUNG FACHGRUPPE FS26 02.03. um 18:15 Uhr ZGS Get Together- Bastelabend &amp\; Vorstandswahl 27.03. ab 15:00 Uhr Soli- Abend: Kleidertausch im ZGS 13.04. um 18:15 Uhr ZGS Get Together Handarbeitsabend 29.04. um 19：00 Uhr Aktivismus- Talk 04.05. um 18：15 Uhr ZGS Get Together- Spielabend ERREICHE UNS ERREICHEUNSUNTER: UNTER: @FG_Genderstudies FG-genderstudies@unibas.ch Unser UnserSemesterprogramm verändert sich währeno dem Semester immer wieder. Bleib auf dem laufenden in unserem Chat!'.
+END:VEVENT
 END:VCALENDAR
