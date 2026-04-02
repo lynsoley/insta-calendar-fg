@@ -48,7 +48,7 @@ def extract_events(text):
         # Säubern
         title = title.strip()
         title = re.split(r"(ERREICHE|UNTER|@)", title)[0]
-        title = re.sub(r"^Uhr\s*", "", title)
+        title = re.sub(r"\s+", " ", title)
         title = title[:80]
 
         if len(title) < 5:
@@ -58,7 +58,7 @@ def extract_events(text):
             "title": title,
             "start": start,
             "end": end,
-            "description": title
+            "description": text.strip()
         })
 
     return results
@@ -115,10 +115,6 @@ print("\nGefundene Events:", len(events))
 # =========================
 # ICS erstellen (FIXED TIMEZONE)
 # =========================
-def create_uid(event):
-    base = f"{event['title']}-{event['start']}"
-    return hashlib.md5(base.encode()).hexdigest() + "@fg-genderstudies"
-
 def create_ics(events):
     content = """BEGIN:VCALENDAR
 VERSION:2.0
@@ -143,14 +139,8 @@ END:STANDARD
 END:VTIMEZONE
 """
 
-    now = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
-
     for e in events:
-        uid = create_uid(e)
-
         content += f"""BEGIN:VEVENT
-UID:{uid}
-DTSTAMP:{now}
 SUMMARY:{escape_ics(e['title'])}
 DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
 DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
