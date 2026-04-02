@@ -10,8 +10,29 @@ events = []
 seen = set()
 
 # =========================
-# Events extrahieren
+# Events extrahieren (ROBUST)
 # =========================
+def clean_description(text, match_start):
+    # Schneide alles vor dem ersten Datum ab
+    first_date = re.search(r"\d{1,2}\.\d{1,2}\.", text)
+    if first_date:
+        text = text[first_date.start():]
+
+    # Schneide alles nach Social / Footer Müll ab
+    text = re.split(r"ERREICHE|UNTER|@", text)[0]
+
+    # Hole nur den Block dieses Events
+    text_after = text[match_start:]
+    next_date = re.search(r"\d{1,2}\.\d{1,2}\.", text_after[10:])
+
+    if next_date:
+        text_after = text_after[:next_date.start()+10]
+
+    # Clean whitespace
+    text_after = re.sub(r"\s+", " ", text_after).strip()
+
+    return text_after
+
 def extract_events(text):
     results = []
 
@@ -48,11 +69,7 @@ def extract_events(text):
         # Säubern
         title = title.strip()
         title = re.split(r"(ERREICHE|UNTER|@)", title)[0]
-        title = re.sub(r"\s+", " ", title)
-
-        # 🔥 FIX: "Uhr " entfernen
         title = re.sub(r"^Uhr\s*", "", title)
-
         title = title[:80]
 
         if len(title) < 5:
@@ -62,14 +79,13 @@ def extract_events(text):
             "title": title,
             "start": start,
             "end": end,
-            # 🔥 FIX: saubere Beschreibung (kein Instagram Müll)
-            "description": title
+            "description": clean_description(text, match.start())
         })
 
     return results
 
 # =========================
-# ICS Escape
+# ICS Escape (WICHTIG)
 # =========================
 def escape_ics(text):
     return (
@@ -78,13 +94,6 @@ def escape_ics(text):
         .replace(",", "\\,")
         .replace("\n", "\\n")
     )
-
-# =========================
-# UID erstellen (gegen Duplikate)
-# =========================
-def create_uid(event):
-    base = f"{event['title']}-{event['start']}"
-    return hashlib.md5(base.encode()).hexdigest() + "@fg-genderstudies"
 
 # =========================
 # Browser
@@ -125,8 +134,12 @@ with sync_playwright() as p:
 print("\nGefundene Events:", len(events))
 
 # =========================
-# ICS erstellen
+# ICS erstellen (FIXED TIMEZONE)
 # =========================
+def create_uid(event):
+    base = f"{event['title']}-{event['start']}"
+    return hashlib.md5(base.encode()).hexdigest() + "@fg-genderstudies"
+
 def create_ics(events):
     content = """BEGIN:VCALENDAR
 VERSION:2.0
