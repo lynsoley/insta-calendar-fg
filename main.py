@@ -159,22 +159,24 @@ with sync_playwright() as p:
             page.wait_for_timeout(2000)
 
         html = page.content()
+        
+        links = re.findall(r'href="(/p/[^"]+)"', html)
+        links = ["https://www.instagram.com" + link for link in links]
 
         alts = re.findall(r'alt="([^"]+)"', html)
 
         print("Gefundene ALT Texte:", len(alts))
 
-        for alt in alts[:3]:
+        for alt, link in zip(alts, links):
             print("ALT SAMPLE:", alt[:120])
-            
-        for alt in alts:
+
             if "Photo by" not in alt:
                 continue
 
             extracted = extract_events(alt)
 
             for e in extracted:
-                key = (e["start"].date(), e["start"].hour, e["start"].minute)
+                key = (e["start"], e["title"])
 
                 if key in seen:
                     continue
@@ -183,6 +185,7 @@ with sync_playwright() as p:
 
                 print("Event:", e["title"], "|", e["start"])
 
+                e["url"] = link
                 events.append(e)
 
 # =========================
@@ -227,7 +230,8 @@ DTSTAMP:{now}
 SUMMARY:{escape_ics(e['title'])}
 DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
 DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
-DESCRIPTION:{escape_ics(e['description'])}
+DESCRIPTION:{escape_ics(e['description'])}\\n{e.get('url','')}
+URL:{e.get('url','')}
 END:VEVENT
 """
 
