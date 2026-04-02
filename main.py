@@ -110,7 +110,7 @@ def create_ics(events):
     content = "BEGIN:VCALENDAR\nVERSION:2.0\n"
 
     for e in events:
-        # in UTC umrechnen (Schweiz = UTC+2 im April)
+        # Schweiz = UTC+2 (Sommerzeit)
         start_utc = e['start'] - timedelta(hours=2)
         end_utc = e['end'] - timedelta(hours=2)
 
