@@ -107,30 +107,17 @@ print("\nGefundene Events:", len(events))
 # ICS
 # =========================
 def create_ics(events):
-    content = """BEGIN:VCALENDAR
-            VERSION:2.0
-            BEGIN:VTIMEZONE
-            TZID:Europe/Zurich
-            BEGIN:DAYLIGHT
-            TZOFFSETFROM:+0100
-            TZOFFSETTO:+0200
-            TZNAME:CEST
-            DTSTART:19700329T020000
-            END:DAYLIGHT
-            BEGIN:STANDARD
-            TZOFFSETFROM:+0200
-            TZOFFSETTO:+0100
-            TZNAME:CET
-            DTSTART:19701025T030000
-            END:STANDARD
-            END:VTIMEZONE
-            """
+    content = "BEGIN:VCALENDAR\nVERSION:2.0\n"
 
     for e in events:
+        # in UTC umrechnen (Schweiz = UTC+2 im April)
+        start_utc = e['start'] - timedelta(hours=2)
+        end_utc = e['end'] - timedelta(hours=2)
+
         content += f"""BEGIN:VEVENT
             SUMMARY:{e['title']}
-            DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
-            DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
+            DTSTART:{start_utc.strftime('%Y%m%dT%H%M%SZ')}
+            DTEND:{end_utc.strftime('%Y%m%dT%H%M%SZ')}
             DESCRIPTION:{e['description']}
             END:VEVENT
             """
