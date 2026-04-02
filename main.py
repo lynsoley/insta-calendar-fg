@@ -115,6 +115,10 @@ print("\nGefundene Events:", len(events))
 # =========================
 # ICS erstellen (FIXED TIMEZONE)
 # =========================
+def create_uid(event):
+    base = f"{event['title']}-{event['start']}"
+    return hashlib.md5(base.encode()).hexdigest() + "@fg-genderstudies"
+
 def create_ics(events):
     content = """BEGIN:VCALENDAR
 VERSION:2.0
@@ -139,8 +143,14 @@ END:STANDARD
 END:VTIMEZONE
 """
 
+    now = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+
     for e in events:
+        uid = create_uid(e)
+
         content += f"""BEGIN:VEVENT
+UID:{uid}
+DTSTAMP:{now}
 SUMMARY:{escape_ics(e['title'])}
 DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
 DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
