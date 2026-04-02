@@ -12,27 +12,6 @@ seen = set()
 # =========================
 # Events extrahieren (ROBUST)
 # =========================
-def clean_description(text, match_start):
-    # Schneide alles vor dem ersten Datum ab
-    first_date = re.search(r"\d{1,2}\.\d{1,2}\.", text)
-    if first_date:
-        text = text[first_date.start():]
-
-    # Schneide alles nach Social / Footer Müll ab
-    text = re.split(r"ERREICHE|UNTER|@", text)[0]
-
-    # Hole nur den Block dieses Events
-    text_after = text[match_start:]
-    next_date = re.search(r"\d{1,2}\.\d{1,2}\.", text_after[10:])
-
-    if next_date:
-        text_after = text_after[:next_date.start()+10]
-
-    # Clean whitespace
-    text_after = re.sub(r"\s+", " ", text_after).strip()
-
-    return text_after
-
 def extract_events(text):
     results = []
 
@@ -79,7 +58,7 @@ def extract_events(text):
             "title": title,
             "start": start,
             "end": end,
-            "description": clean_description(text, match.start())
+            "description": title
         })
 
     return results
