@@ -78,39 +78,32 @@ def escape_ics(text):
 # Browser
 # =========================
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)
-    page = browser.new_page()
+    browser = p.chromium.launch(
+        headless=True,
+        args=["--disable-blink-features=AutomationControlled"]
+    )
 
-    page.goto(URL)
-    page.wait_for_timeout(5000)
+    context = browser.new_context(
+        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
+    )
+
+    page = context.new_page()
+
+    page.goto(URL, timeout=60000)
+
+    # 🔥 Warten bis Bilder geladen sind
+    page.wait_for_selector("img", timeout=15000)
+
+    # 🔥 Scrollen (Instagram lazy loading!)
+    for _ in range(3):
+        page.mouse.wheel(0, 3000)
+        page.wait_for_timeout(2000)
 
     html = page.content()
 
     alts = re.findall(r'alt="([^"]+)"', html)
 
     print("Gefundene ALT Texte:", len(alts))
-
-    for alt in alts:
-        if "Photo by" not in alt:
-            continue
-
-        extracted = extract_events(alt)
-
-        for e in extracted:
-            key = (e["start"].date(), e["start"].hour, e["start"].minute)
-
-            if key in seen:
-                continue
-
-            seen.add(key)
-
-            print("Event:", e["title"], "|", e["start"])
-
-            events.append(e)
-
-    browser.close()
-
-print("\nGefundene Events:", len(events))
 
 # =========================
 # ICS erstellen (FIXED TIMEZONE)
