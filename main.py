@@ -25,7 +25,6 @@ def extract_events(text):
         hour = int(match.group(3))
         minute = int(match.group(4))
 
-        # Sicherheit
         if hour > 23:
             continue
 
@@ -36,9 +35,7 @@ def extract_events(text):
 
         end = start + timedelta(hours=2)
 
-        # =========================
-        # Titel = Text NACH Match
-        # =========================
+        # Titel extrahieren
         start_idx = match.end()
         next_match = re.search(r"\d{1,2}\.\d{1,2}\.", text[start_idx:])
 
@@ -47,7 +44,7 @@ def extract_events(text):
         else:
             title = text[start_idx:]
 
-        # säubern
+        # Säubern
         title = title.strip()
         title = re.split(r"(ERREICHE|UNTER|@)", title)[0]
         title = re.sub(r"\s+", " ", title)
@@ -64,6 +61,17 @@ def extract_events(text):
         })
 
     return results
+
+# =========================
+# ICS Escape (WICHTIG)
+# =========================
+def escape_ics(text):
+    return (
+        text.replace("\\", "\\\\")
+        .replace(";", "\\;")
+        .replace(",", "\\,")
+        .replace("\n", "\\n")
+    )
 
 # =========================
 # Browser
@@ -104,29 +112,32 @@ with sync_playwright() as p:
 print("\nGefundene Events:", len(events))
 
 # =========================
-# ICS
+# ICS erstellen (FIXED TIMEZONE)
 # =========================
 def create_ics(events):
-    content = "BEGIN:VCALENDAR\nVERSION:2.0\n"
+    content = """BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+PRODID:-//FG Gender Studies//Instagram Calendar//EN
+"""
 
     for e in events:
-        # Schweiz = UTC+2 (Sommerzeit)
-        start_utc = e['start'] - timedelta(hours=2)
-        end_utc = e['end'] - timedelta(hours=2)
-
         content += f"""BEGIN:VEVENT
-            SUMMARY:{e['title']}
-            DTSTART:{start_utc.strftime('%Y%m%dT%H%M%SZ')}
-            DTEND:{end_utc.strftime('%Y%m%dT%H%M%SZ')}
-            DESCRIPTION:{e['description']}
-            END:VEVENT
-            """
+SUMMARY:{escape_ics(e['title'])}
+DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
+DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
+DESCRIPTION:{escape_ics(e['description'])}
+END:VEVENT
+"""
 
     content += "END:VCALENDAR"
 
     with open("events.ics", "w") as f:
         f.write(content)
 
+# =========================
+# Run
+# =========================
 create_ics(events)
 
 os.system("git add events.ics")
