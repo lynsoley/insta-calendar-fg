@@ -19,6 +19,17 @@ seen = set()
 def extract_events(text):
     results = []
 
+    # NEU: Monatsnamen Mapping
+    month_map = {
+        "januar": 1, "februar": 2, "märz": 3, "maerz": 3,
+        "april": 4, "mai": 5, "juni": 6, "juli": 7,
+        "august": 8, "september": 9, "oktober": 10,
+        "november": 11, "dezember": 12
+    }
+
+    # =========================
+    # 1. Standard-Pattern (dd.mm.)
+    # =========================
     pattern = re.finditer(
         r"(\d{1,2})\.(\d{1,2})\.\s*(?:um|ab)?\s*(\d{1,2})[:：](\d{2})",
         text
@@ -40,7 +51,6 @@ def extract_events(text):
 
         end = start + timedelta(hours=2)
 
-        # Titel extrahieren
         start_idx = match.end()
         next_match = re.search(r"\d{1,2}\.\d{1,2}\.", text[start_idx:])
 
@@ -49,7 +59,6 @@ def extract_events(text):
         else:
             title = text[start_idx:]
 
-        # Säubern
         title = title.strip()
         title = re.split(r"(ERREICHE|UNTER|@)", title)[0]
         title = re.sub(r"^Uhr\s+", " ", title)
@@ -63,6 +72,39 @@ def extract_events(text):
             "start": start,
             "end": end,
             "description": title
+        })
+
+    # =========================
+    # 2. NEU: Pattern für "12. Mai 18:00"
+    # =========================
+    pattern_text = re.finditer(
+        r"(\d{1,2})\.\s*([A-Za-zäöüÄÖÜ]+)\s*(\d{1,2})[:：](\d{2})",
+        text.lower()
+    )
+
+    for match in pattern_text:
+        day = int(match.group(1))
+        month_str = match.group(2).lower()
+        hour = int(match.group(3))
+        minute = int(match.group(4))
+
+        if hour > 23 or month_str not in month_map:
+            continue
+
+        month = month_map[month_str]
+
+        try:
+            start = datetime(2026, month, day, hour, minute)
+        except:
+            continue
+
+        end = start + timedelta(hours=2)
+
+        results.append({
+            "title": "Event",
+            "start": start,
+            "end": end,
+            "description": "Event"
         })
 
     return results
@@ -101,7 +143,6 @@ with sync_playwright() as p:
         
         print("✅ Seite geladen")
 
-        # scroll (wichtig für Inhalte)
         for _ in range(3):
             page.mouse.wheel(0, 3000)
             page.wait_for_timeout(2000)
@@ -112,7 +153,6 @@ with sync_playwright() as p:
 
         print("Gefundene ALT Texte:", len(alts))
 
-        # DEBUG
         for alt in alts[:3]:
             print("ALT SAMPLE:", alt[:120])
             
