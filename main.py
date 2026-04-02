@@ -107,16 +107,33 @@ print("\nGefundene Events:", len(events))
 # ICS
 # =========================
 def create_ics(events):
-    content = "BEGIN:VCALENDAR\nVERSION:2.0\n"
+    content = """BEGIN:VCALENDAR
+            VERSION:2.0
+            BEGIN:VTIMEZONE
+            TZID:Europe/Zurich
+            BEGIN:DAYLIGHT
+            TZOFFSETFROM:+0100
+            TZOFFSETTO:+0200
+            TZNAME:CEST
+            DTSTART:19700329T020000
+            END:DAYLIGHT
+            BEGIN:STANDARD
+            TZOFFSETFROM:+0200
+            TZOFFSETTO:+0100
+            TZNAME:CET
+            DTSTART:19701025T030000
+            END:STANDARD
+            END:VTIMEZONE
+            """
 
     for e in events:
         content += f"""BEGIN:VEVENT
-SUMMARY:{e['title']}
-DTSTART:{e['start'].strftime('%Y%m%dT%H%M%S')}
-DTEND:{e['end'].strftime('%Y%m%dT%H%M%S')}
-DESCRIPTION:{e['description']}
-END:VEVENT
-"""
+            SUMMARY:{e['title']}
+            DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
+            DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
+            DESCRIPTION:{e['description']}
+            END:VEVENT
+            """
 
     content += "END:VCALENDAR"
 
