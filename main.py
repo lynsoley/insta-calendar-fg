@@ -3,6 +3,7 @@ import re
 import os
 import hashlib
 from datetime import datetime, timedelta
+from datetime import datetime, UTC
 
 URLS = [
     "https://www.instagram.com/fg_genderstudies/",
@@ -163,8 +164,8 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 """
-
-    now = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+    
+    now = datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')
 
     for e in events:
         uid = create_uid(e)
