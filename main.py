@@ -19,7 +19,6 @@ seen = set()
 def extract_events(text):
     results = []
 
-    # NEU: Monatsnamen Mapping
     month_map = {
         "januar": 1, "februar": 2, "märz": 3, "maerz": 3,
         "april": 4, "mai": 5, "juni": 6, "juli": 7,
@@ -51,6 +50,7 @@ def extract_events(text):
 
         end = start + timedelta(hours=2)
 
+        # ✅ EINMAL sauber Titel extrahieren
         start_idx = match.end()
         next_match = re.search(r"\d{1,2}\.\d{1,2}\.", text[start_idx:])
 
@@ -67,6 +67,40 @@ def extract_events(text):
         if len(title) < 5:
             title = "FG Gender Studies Event"
 
+        results.append({
+            "title": title,
+            "start": start,
+            "end": end,
+            "description": title
+        })
+
+    # =========================
+    # 2. Pattern für "12. Mai 18:00"
+    # =========================
+    pattern_text = re.finditer(
+        r"(\d{1,2})\.\s*([A-Za-zäöüÄÖÜ]+)\s*(\d{1,2})[:：](\d{2})",
+        text.lower()
+    )
+
+    for match in pattern_text:
+        day = int(match.group(1))
+        month_str = match.group(2).lower()
+        hour = int(match.group(3))
+        minute = int(match.group(4))
+
+        if hour > 23 or month_str not in month_map:
+            continue
+
+        month = month_map[month_str]
+
+        try:
+            start = datetime(2026, month, day, hour, minute)
+        except:
+            continue
+
+        end = start + timedelta(hours=2)
+
+        # ✅ Titel auch hier extrahieren (FIX!)
         start_idx = match.end()
         next_match = re.search(r"\d{1,2}\.\s*[A-Za-zäöüÄÖÜ]+", text[start_idx:])
 
@@ -89,6 +123,8 @@ def extract_events(text):
             "end": end,
             "description": title
         })
+
+    return results
 
     # =========================
     # 2. NEU: Pattern für "12. Mai 18:00"
