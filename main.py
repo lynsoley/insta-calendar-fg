@@ -7,7 +7,8 @@ from datetime import datetime, timedelta
 URLS = [
     "https://www.instagram.com/fg_genderstudies/",
     "https://www.instagram.com/fem._kollektiv_winterthur/",
-    "https://www.instagram.com/kollektiv.dulifera/"
+    "https://www.instagram.com/kollektiv.dulifera/",
+    "https://www.instagram.com/baselticktbunt/"
 ]
 
 events = []
