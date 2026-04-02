@@ -4,7 +4,11 @@ import os
 import hashlib
 from datetime import datetime, timedelta
 
-URL = "https://www.instagram.com/fg_genderstudies/"
+URLS = [
+    "https://www.instagram.com/fg_genderstudies/",
+    "https://www.instagram.com/fem._kollektiv_winterthur/",
+    "https://www.instagram.com/kollektiv.dulifera/"
+]
 
 events = []
 seen = set()
@@ -78,7 +82,7 @@ def escape_ics(text):
 # Browser
 # =========================
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)  # erstmal sichtbar!
+    browser = p.chromium.launch(headless=True)
 
     context = browser.new_context(
         storage_state="state.json",
@@ -88,45 +92,47 @@ with sync_playwright() as p:
 
     page = context.new_page()
 
-    page.goto(URL, timeout=60000)
+    for URL in URLS:
+        print(f"\n🔎 Lade: {URL}")
 
-    # 🔥 WICHTIG: warten bis GRID da ist (nicht nur img!)
-    page.wait_for_selector("img", timeout=15000)
-    
-    print("✅ Seite geladen")
+        page.goto(URL, timeout=60000)
 
-    # scroll (wichtig für Inhalte)
-    for _ in range(3):
-        page.mouse.wheel(0, 3000)
-        page.wait_for_timeout(2000)
-
-    html = page.content()
-
-    alts = re.findall(r'alt="([^"]+)"', html)
-
-    print("Gefundene ALT Texte:", len(alts))
-
-    # DEBUG
-    for alt in alts[:3]:
-        print("ALT SAMPLE:", alt[:120])
+        page.wait_for_selector("img", timeout=15000)
         
-    for alt in alts:
-        if "Photo by" not in alt:
-            continue
+        print("✅ Seite geladen")
 
-        extracted = extract_events(alt)
+        # scroll (wichtig für Inhalte)
+        for _ in range(3):
+            page.mouse.wheel(0, 3000)
+            page.wait_for_timeout(2000)
 
-        for e in extracted:
-            key = (e["start"].date(), e["start"].hour, e["start"].minute)
+        html = page.content()
 
-            if key in seen:
+        alts = re.findall(r'alt="([^"]+)"', html)
+
+        print("Gefundene ALT Texte:", len(alts))
+
+        # DEBUG
+        for alt in alts[:3]:
+            print("ALT SAMPLE:", alt[:120])
+            
+        for alt in alts:
+            if "Photo by" not in alt:
                 continue
 
-            seen.add(key)
+            extracted = extract_events(alt)
 
-            print("Event:", e["title"], "|", e["start"])
+            for e in extracted:
+                key = (e["start"].date(), e["start"].hour, e["start"].minute)
 
-            events.append(e)
+                if key in seen:
+                    continue
+
+                seen.add(key)
+
+                print("Event:", e["title"], "|", e["start"])
+
+                events.append(e)
 
 # =========================
 # ICS erstellen (FIXED TIMEZONE)
