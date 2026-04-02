@@ -94,7 +94,7 @@ def extract_events(text):
 
         end = start + timedelta(hours=2)
 
-        # 🔥 WICHTIG: Titel VOR dem Datum
+        # 🔥 Titel VOR Datum
         start_idx = match.start()
         title = text[:start_idx]
 
@@ -104,7 +104,6 @@ def extract_events(text):
 
         title = title.strip()
 
-        # relevante letzten Wörter
         words = title.split()
         title = " ".join(words[-12:])
 
@@ -121,7 +120,7 @@ def extract_events(text):
     return results
 
 # =========================
-# ICS Escape (WICHTIG)
+# ICS Escape
 # =========================
 def escape_ics(text):
     return (
@@ -139,7 +138,7 @@ with sync_playwright() as p:
 
     context = browser.new_context(
         storage_state="state.json",
-        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
+        user_agent="Mozilla/5.0",
         viewport={"width": 1280, "height": 800}
     )
 
@@ -149,9 +148,8 @@ with sync_playwright() as p:
         print(f"\n🔎 Lade: {URL}")
 
         page.goto(URL, timeout=60000)
-
         page.wait_for_selector("img", timeout=15000)
-        
+
         print("✅ Seite geladen")
 
         for _ in range(3):
@@ -161,32 +159,33 @@ with sync_playwright() as p:
         html = page.content()
 
         alts = re.findall(r'alt="([^"]+)"', html)
+        links = re.findall(r'href="(/p/[^"]+)"', html)
+        links = ["https://www.instagram.com" + link for link in links]
 
         print("Gefundene ALT Texte:", len(alts))
 
-        for alt in alts[:3]:
-            print("ALT SAMPLE:", alt[:120])
-            
-        for alt in alts:
+        for alt, link in zip(alts, links):
             if "Photo by" not in alt:
                 continue
 
             extracted = extract_events(alt)
 
             for e in extracted:
-                key = (e["start"].date(), e["start"].hour, e["start"].minute)
+                key = (e["start"], e["title"])
 
                 if key in seen:
                     continue
 
                 seen.add(key)
 
+                e["url"] = link
+
                 print("Event:", e["title"], "|", e["start"])
 
                 events.append(e)
 
 # =========================
-# ICS erstellen (FIXED TIMEZONE)
+# ICS erstellen
 # =========================
 def create_uid(event):
     base = f"{event['title']}-{event['start']}"
@@ -227,7 +226,8 @@ DTSTAMP:{now}
 SUMMARY:{escape_ics(e['title'])}
 DTSTART;TZID=Europe/Zurich:{e['start'].strftime('%Y%m%dT%H%M%S')}
 DTEND;TZID=Europe/Zurich:{e['end'].strftime('%Y%m%dT%H%M%S')}
-DESCRIPTION:{escape_ics(e['description'])}
+DESCRIPTION:{escape_ics(e['description'])}\\n{e.get('url','')}
+URL:{e.get('url','')}
 END:VEVENT
 """
 
