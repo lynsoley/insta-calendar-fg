@@ -20,59 +20,59 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:39251964666d8c082a8b218bb41100aa@fg-genderstudies
-DTSTAMP:20260402T220300Z
-SUMMARY: ZGS Get Together- Bastelabend &amp\; Vorstandswahl
+UID:e54efcbc9406d951ef6b6954e6043b1a@fg-genderstudies
+DTSTAMP:20260402T221355Z
+SUMMARY: ZGS Get Together- Bastelabend &amp\; Vorstandswahl 27.03. ab 15:00 Uhr Soli- Abe
 DTSTART;TZID=Europe/Zurich:20260302T181500
 DTEND;TZID=Europe/Zurich:20260302T201500
-DESCRIPTION: ZGS Get Together- Bastelabend &amp\; Vorstandswahl
+DESCRIPTION: ZGS Get Together- Bastelabend &amp\; Vorstandswahl 27.03. ab 15:00 Uhr Soli- Abe
 END:VEVENT
 BEGIN:VEVENT
-UID:b413fc8bf8c028007215926cee960227@fg-genderstudies
-DTSTAMP:20260402T220300Z
-SUMMARY: Soli- Abend: Kleidertausch im ZGS
+UID:cff5583302e1a7b69b8a7e9eb2b03d99@fg-genderstudies
+DTSTAMP:20260402T221355Z
+SUMMARY: Soli- Abend: Kleidertausch im ZGS 13.04. um 18:15 Uhr ZGS Get Together Handarbe
 DTSTART;TZID=Europe/Zurich:20260327T150000
 DTEND;TZID=Europe/Zurich:20260327T170000
-DESCRIPTION: Soli- Abend: Kleidertausch im ZGS
+DESCRIPTION: Soli- Abend: Kleidertausch im ZGS 13.04. um 18:15 Uhr ZGS Get Together Handarbe
 END:VEVENT
 BEGIN:VEVENT
-UID:6ef4c9bd8cf6dacb79302e6120f32462@fg-genderstudies
-DTSTAMP:20260402T220300Z
-SUMMARY: ZGS Get Together Handarbeitsabend
+UID:01797262e15cc216e5d088dcea0ca2eb@fg-genderstudies
+DTSTAMP:20260402T221355Z
+SUMMARY: ZGS Get Together Handarbeitsabend 29.04. um 19：00 Uhr Aktivismus- Talk 04.05. u
 DTSTART;TZID=Europe/Zurich:20260413T181500
 DTEND;TZID=Europe/Zurich:20260413T201500
-DESCRIPTION: ZGS Get Together Handarbeitsabend
+DESCRIPTION: ZGS Get Together Handarbeitsabend 29.04. um 19：00 Uhr Aktivismus- Talk 04.05. u
 END:VEVENT
 BEGIN:VEVENT
-UID:a6716f24c215ed07c80788fd8f510fa5@fg-genderstudies
-DTSTAMP:20260402T220300Z
-SUMMARY: Aktivismus- Talk
+UID:3771b93b03a82adffb67b850b82d8d4e@fg-genderstudies
+DTSTAMP:20260402T221355Z
+SUMMARY: Aktivismus- Talk 04.05. um 18：15 Uhr ZGS Get Together- Spielabend 
 DTSTART;TZID=Europe/Zurich:20260429T190000
 DTEND;TZID=Europe/Zurich:20260429T210000
-DESCRIPTION: Aktivismus- Talk
+DESCRIPTION: Aktivismus- Talk 04.05. um 18：15 Uhr ZGS Get Together- Spielabend 
 END:VEVENT
 BEGIN:VEVENT
 UID:bc0c6741753b956005d4e4f514be3532@fg-genderstudies
-DTSTAMP:20260402T220300Z
+DTSTAMP:20260402T221355Z
 SUMMARY: ZGS Get Together- Spielabend 
 DTSTART;TZID=Europe/Zurich:20260504T181500
 DTEND;TZID=Europe/Zurich:20260504T201500
 DESCRIPTION: ZGS Get Together- Spielabend 
 END:VEVENT
 BEGIN:VEVENT
-UID:06f426e161c2724eb8fd289dd8b6fb2c@fg-genderstudies
-DTSTAMP:20260402T220300Z
-SUMMARY:Mai 18:00 Uhr'.
+UID:6a3470e9e217135d6101ec417d9d85eb@fg-genderstudies
+DTSTAMP:20260402T221355Z
+SUMMARY:d. SAenera Svizzera Confederaziunsuiar erhöhung Belastungspaket 27 und das Belastungspaket 27! 12.
 DTSTART;TZID=Europe/Zurich:20260512T180000
 DTEND;TZID=Europe/Zurich:20260512T200000
-DESCRIPTION:Mai 18:00 Uhr'.
+DESCRIPTION:d. SAenera Svizzera Confederaziunsuiar erhöhung Belastungspaket 27 und das Belastungspaket 27! 12.
 END:VEVENT
 BEGIN:VEVENT
-UID:a3fd4c13c42ce3730932648d0d03718b@fg-genderstudies
-DTSTAMP:20260402T220300Z
-SUMMARY: im Neuen Kino (Klybeckstrasse 247) EDUCATION FORSALE SNOT is VOT 세지시 Wir schaue
+UID:f3fc65f24c28581221bee9d42f3edb3d@fg-genderstudies
+DTSTAMP:20260402T221355Z
+SUMMARY:'FILMABEND
 DTSTART;TZID=Europe/Zurich:20260303T180000
 DTEND;TZID=Europe/Zurich:20260303T200000
-DESCRIPTION: im Neuen Kino (Klybeckstrasse 247) EDUCATION FORSALE SNOT is VOT 세지시 Wir schaue
+DESCRIPTION:'FILMABEND
 END:VEVENT
 END:VCALENDAR
