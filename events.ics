@@ -21,7 +21,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:6bfb89945ba889c3939966bb92409cb4@fg-genderstudies
-DTSTAMP:20260514T082810Z
+DTSTAMP:20260514T134553Z
 SUMMARY: ZGS Get Together Spieleabend Uno\, Mario Kart\, Brettspiele\, Kreuzworträtsel\, Kah
 DTSTART;TZID=Europe/Zurich:20260504T181500
 DTEND;TZID=Europe/Zurich:20260504T201500
@@ -29,7 +29,7 @@ DESCRIPTION: ZGS Get Together Spieleabend Uno\, Mario Kart\, Brettspiele\, Kreuz
 END:VEVENT
 BEGIN:VEVENT
 UID:d0375a411f628f4d08b8651931845edb@fg-genderstudies
-DTSTAMP:20260514T082810Z
+DTSTAMP:20260514T134553Z
 SUMMARY: ZGS Get Together- Strick und Schnack Bring your own Project. Stickschaal\, Häkel
 DTSTART;TZID=Europe/Zurich:20260413T181500
 DTEND;TZID=Europe/Zurich:20260413T201500
@@ -37,7 +37,7 @@ DESCRIPTION: ZGS Get Together- Strick und Schnack Bring your own Project. Sticks
 END:VEVENT
 BEGIN:VEVENT
 UID:6a3470e9e217135d6101ec417d9d85eb@fg-genderstudies
-DTSTAMP:20260514T082810Z
+DTSTAMP:20260514T134553Z
 SUMMARY:d. SAenera Svizzera Confederaziunsuiar erhöhung Belastungspaket 27 und das Belastungspaket 27! 12.
 DTSTART;TZID=Europe/Zurich:20260512T180000
 DTEND;TZID=Europe/Zurich:20260512T200000
